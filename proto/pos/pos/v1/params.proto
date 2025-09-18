@@ -1,0 +1,13 @@
+syntax = "proto3";
+package pos.pos.v1;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+
+option go_package = "github.com/you/pos/x/pos/types";
+
+// Params defines the parameters for the module.
+message Params {
+  option (amino.name) = "pos/x/pos/Params";
+  option (gogoproto.equal) = true;
+}
