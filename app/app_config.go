@@ -67,6 +67,8 @@ import (
 	icatypes "github.com/cosmos/ibc-go/v10/modules/apps/27-interchain-accounts/types"
 	ibctransfertypes "github.com/cosmos/ibc-go/v10/modules/apps/transfer/types"
 	ibcexported "github.com/cosmos/ibc-go/v10/modules/core/exported"
+	_ "github.com/you/pos/x/blog/module"
+	blogmoduletypes "github.com/you/pos/x/blog/types"
 	_ "github.com/you/pos/x/pos/module"
 	posmoduletypes "github.com/you/pos/x/pos/types"
 	"google.golang.org/protobuf/types/known/durationpb"
@@ -126,6 +128,7 @@ var (
 						ibcexported.ModuleName,
 						// chain modules
 						posmoduletypes.ModuleName,
+						blogmoduletypes.ModuleName,
 						// this line is used by starport scaffolding # stargate/app/beginBlockers
 					},
 					EndBlockers: []string{
@@ -135,6 +138,7 @@ var (
 						group.ModuleName,
 						// chain modules
 						posmoduletypes.ModuleName,
+						blogmoduletypes.ModuleName,
 						// this line is used by starport scaffolding # stargate/app/endBlockers
 					},
 					// The following is mostly only needed when ModuleName != StoreKey name.
@@ -172,6 +176,7 @@ var (
 						icatypes.ModuleName,
 						// chain modules
 						posmoduletypes.ModuleName,
+						blogmoduletypes.ModuleName,
 						// this line is used by starport scaffolding # stargate/app/initGenesis
 					},
 				}),
@@ -271,6 +276,10 @@ var (
 			{
 				Name:   posmoduletypes.ModuleName,
 				Config: appconfig.WrapAny(&posmoduletypes.Module{}),
+			},
+			{
+				Name:   blogmoduletypes.ModuleName,
+				Config: appconfig.WrapAny(&blogmoduletypes.Module{}),
 			},
 			// this line is used by starport scaffolding # stargate/app/moduleConfig
 		},

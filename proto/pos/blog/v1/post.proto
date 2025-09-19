@@ -1,0 +1,12 @@
+syntax = "proto3";
+package pos.blog.v1;
+
+option go_package = "github.com/you/pos/x/blog/types";
+
+// Post defines the Post message.
+message Post {
+  uint64 id = 1;
+  string title = 2;
+  string body = 3;
+  string creator = 4;
+}

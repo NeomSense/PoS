@@ -46,6 +46,7 @@ import (
 	ibckeeper "github.com/cosmos/ibc-go/v10/modules/core/keeper"
 
 	"github.com/you/pos/docs"
+	blogmodulekeeper "github.com/you/pos/x/blog/keeper"
 	posmodulekeeper "github.com/you/pos/x/pos/keeper"
 )
 
@@ -99,8 +100,9 @@ type App struct {
 	TransferKeeper      ibctransferkeeper.Keeper
 
 	// simulation manager
-	sm        *module.SimulationManager
-	PosKeeper posmodulekeeper.Keeper
+	sm         *module.SimulationManager
+	PosKeeper  posmodulekeeper.Keeper
+	BlogKeeper blogmodulekeeper.Keeper
 }
 
 func init() {
@@ -174,6 +176,7 @@ func New(
 		&app.CircuitBreakerKeeper,
 		&app.ParamsKeeper,
 		&app.PosKeeper,
+		&app.BlogKeeper,
 	); err != nil {
 		panic(err)
 	}
