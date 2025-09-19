@@ -13,37 +13,27 @@ option go_package = "github.com/you/pos/x/blog/types";
 
 // Query defines the gRPC querier service.
 service Query {
-  
   // Parameters queries the parameters of the module.
   rpc Params (QueryParamsRequest) returns (QueryParamsResponse) {
     option (google.api.http).get = "/you/pos/blog/v1/params";
-  
   }
-  
-  // ListPost Queries a list of Post items.
+
+  // GetPost queries a single Post by id.
   rpc GetPost (QueryGetPostRequest) returns (QueryGetPostResponse) {
     option (google.api.http).get = "/you/pos/blog/v1/post/{id}";
-  
   }
-  
-  // ListPost defines the ListPost RPC.
+
+  // ListPost queries a paginated list of Post items.
   rpc ListPost (QueryAllPostRequest) returns (QueryAllPostResponse) {
     option (google.api.http).get = "/you/pos/blog/v1/post";
-  
-  }
-  
-  // ListPost Queries a list of ListPost items.
-  rpc ListPost (QueryListPostRequest) returns (QueryListPostResponse) {
-    option (google.api.http).get = "/you/pos/blog/v1/list_post";
-  
   }
 }
+
 // QueryParamsRequest is request type for the Query/Params RPC method.
 message QueryParamsRequest {}
 
 // QueryParamsResponse is response type for the Query/Params RPC method.
 message QueryParamsResponse {
-  
   // params holds all the parameters of this module.
   Params params = 1 [(gogoproto.nullable) = false, (amino.dont_omitempty) = true];
 }
@@ -65,18 +55,6 @@ message QueryAllPostRequest {
 
 // QueryAllPostResponse defines the QueryAllPostResponse message.
 message QueryAllPostResponse {
-  repeated Post                                   post       = 1 [(gogoproto.nullable) = false];
-           cosmos.base.query.v1beta1.PageResponse pagination = 2;
-}
-
-// QueryListPostRequest defines the QueryListPostRequest message.
-message QueryListPostRequest {
-  cosmos.base.query.v1beta1.PageRequest pagination = 1;
-}
-
-// QueryListPostResponse defines the QueryListPostResponse message.
-message QueryListPostResponse {
-  Post                                   post       = 1;
+  repeated Post post = 1 [(gogoproto.nullable) = false];
   cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
-

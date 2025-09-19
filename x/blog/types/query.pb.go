@@ -6,10 +6,6 @@ package types
 import (
 	context "context"
 	fmt "fmt"
-	io "io"
-	math "math"
-	math_bits "math/bits"
-
 	query "github.com/cosmos/cosmos-sdk/types/query"
 	_ "github.com/cosmos/cosmos-sdk/types/tx/amino"
 	_ "github.com/cosmos/gogoproto/gogoproto"
@@ -19,6 +15,9 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
+	io "io"
+	math "math"
+	math_bits "math/bits"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -363,9 +362,9 @@ const _ = grpc.SupportPackageIsVersion4
 type QueryClient interface {
 	// Parameters queries the parameters of the module.
 	Params(ctx context.Context, in *QueryParamsRequest, opts ...grpc.CallOption) (*QueryParamsResponse, error)
-	// ListPost Queries a list of Post items.
+	// GetPost queries a single Post by id.
 	GetPost(ctx context.Context, in *QueryGetPostRequest, opts ...grpc.CallOption) (*QueryGetPostResponse, error)
-	// ListPost defines the ListPost RPC.
+	// ListPost queries a paginated list of Post items.
 	ListPost(ctx context.Context, in *QueryAllPostRequest, opts ...grpc.CallOption) (*QueryAllPostResponse, error)
 }
 
@@ -408,9 +407,9 @@ func (c *queryClient) ListPost(ctx context.Context, in *QueryAllPostRequest, opt
 type QueryServer interface {
 	// Parameters queries the parameters of the module.
 	Params(context.Context, *QueryParamsRequest) (*QueryParamsResponse, error)
-	// ListPost Queries a list of Post items.
+	// GetPost queries a single Post by id.
 	GetPost(context.Context, *QueryGetPostRequest) (*QueryGetPostResponse, error)
-	// ListPost defines the ListPost RPC.
+	// ListPost queries a paginated list of Post items.
 	ListPost(context.Context, *QueryAllPostRequest) (*QueryAllPostResponse, error)
 }
 
