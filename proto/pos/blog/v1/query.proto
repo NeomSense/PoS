@@ -14,17 +14,17 @@ option go_package = "github.com/you/pos/x/blog/types";
 // Query defines the gRPC querier service.
 service Query {
   // Parameters queries the parameters of the module.
-  rpc Params (QueryParamsRequest) returns (QueryParamsResponse) {
+  rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
     option (google.api.http).get = "/you/pos/blog/v1/params";
   }
 
   // GetPost queries a single Post by id.
-  rpc GetPost (QueryGetPostRequest) returns (QueryGetPostResponse) {
+  rpc GetPost(QueryGetPostRequest) returns (QueryGetPostResponse) {
     option (google.api.http).get = "/you/pos/blog/v1/post/{id}";
   }
 
   // ListPost queries a paginated list of Post items.
-  rpc ListPost (QueryAllPostRequest) returns (QueryAllPostResponse) {
+  rpc ListPost(QueryAllPostRequest) returns (QueryAllPostResponse) {
     option (google.api.http).get = "/you/pos/blog/v1/post";
   }
 }
@@ -35,7 +35,10 @@ message QueryParamsRequest {}
 // QueryParamsResponse is response type for the Query/Params RPC method.
 message QueryParamsResponse {
   // params holds all the parameters of this module.
-  Params params = 1 [(gogoproto.nullable) = false, (amino.dont_omitempty) = true];
+  Params params = 1 [
+    (gogoproto.nullable) = false,
+    (amino.dont_omitempty) = true
+  ];
 }
 
 // QueryGetPostRequest defines the QueryGetPostRequest message.

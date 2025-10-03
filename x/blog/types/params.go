@@ -1,17 +1,16 @@
 package types
 
-// NewParams creates a new Params instance.
-func NewParams() Params {
+// Params defines the parameters for the blog module
+type Params struct {
+	// Add any module parameters here, e.g., MaxPostLength uint64
+}
+
+// DefaultParams returns default parameters
+func DefaultParams() Params {
 	return Params{}
 }
 
-// DefaultParams returns a default set of parameters.
-func DefaultParams() Params {
-	return NewParams()
-}
-
-// Validate validates the set of params.
+// Validate validates the parameters
 func (p Params) Validate() error {
-
 	return nil
 }

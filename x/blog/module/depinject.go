@@ -1,6 +1,8 @@
 package blog
 
 import (
+	"fmt"
+
 	"cosmossdk.io/core/address"
 	"cosmossdk.io/core/appmodule"
 	"cosmossdk.io/core/store"
@@ -46,15 +48,23 @@ type ModuleOutputs struct {
 
 func ProvideModule(in ModuleInputs) ModuleOutputs {
 	// default to governance authority if not provided
-	authority := authtypes.NewModuleAddress(types.GovModuleName)
+	var authorityBytes = authtypes.NewModuleAddress(types.GovModuleName)
 	if in.Config.Authority != "" {
-		authority = authtypes.NewModuleAddressOrBech32Address(in.Config.Authority)
+		// Accept either a module name or a bech32 address from config
+		authorityBytes = authtypes.NewModuleAddressOrBech32Address(in.Config.Authority)
 	}
+
+	// Convert sdk.AccAddress -> bech32 string to match keeper.NewKeeper(authority string)
+	authorityStr, err := in.AddressCodec.BytesToString(authorityBytes)
+	if err != nil {
+		panic(fmt.Sprintf("invalid authority address in depinject: %v", err))
+	}
+
 	k := keeper.NewKeeper(
 		in.StoreService,
 		in.Cdc,
 		in.AddressCodec,
-		authority,
+		authorityStr,
 	)
 	m := NewAppModule(in.Cdc, k, in.AuthKeeper, in.BankKeeper)
 

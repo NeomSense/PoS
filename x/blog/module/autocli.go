@@ -30,9 +30,9 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "id"}},
 				},
 				{
-					RpcMethod: "ListPost",
-					Use: "list-post ",
-					Short: "Query list-post",
+					RpcMethod:      "ListPost",
+					Use:            "list-post ",
+					Short:          "Query list-post",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{},
 				},
 
@@ -46,6 +46,12 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 				{
 					RpcMethod: "UpdateParams",
 					Skip:      true, // skipped because authority gated
+				},
+				{
+					RpcMethod:      "CreatePost",
+					Use:            "create-post [title] [content]",
+					Short:          "Send a create-post tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "title"}, {ProtoField: "content"}},
 				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},

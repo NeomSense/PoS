@@ -1,24 +1,21 @@
 package types
 
-import "cosmossdk.io/collections"
-
+// Module basics
 const (
-	// ModuleName defines the module name
-	ModuleName = "blog"
-
-	// StoreKey defines the primary module store key
-	StoreKey = ModuleName
-
-	// GovModuleName duplicates the gov module's name to avoid a dependency with x/gov.
-	// It should be synced with the gov module's name if it is ever changed.
-	// See: https://github.com/cosmos/cosmos-sdk/blob/v0.52.0-beta.2/x/gov/types/keys.go#L9
-	GovModuleName = "gov"
+	ModuleName  = "blog"
+	StoreKey    = ModuleName
+	RouterKey   = ModuleName
+	MemStoreKey = "mem_blog"
 )
 
-// ParamsKey is the prefix to retrieve all Params
-var ParamsKey = collections.NewPrefix("p_blog")
-
+// Collection prefixes / counters
 var (
-	PostKey      = collections.NewPrefix("post/value/")
-	PostCountKey = collections.NewPrefix("post/count/")
+	// ParamsKey is the prefix for module parameters
+	ParamsKey = []byte("Params/")
+
+	// PostKey is the prefix for individual post entries
+	PostKey = []byte("Post/value/")
+
+	// PostCountKey is the prefix for the post counter
+	PostCountKey = []byte("Post/count/")
 )
