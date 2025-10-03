@@ -1,7 +1,7 @@
 \package keeper
 
 import (
-    "github.com/funmachine/pos/x/blog/types"
+    "github.com/NeomSense/PoS/blob/main/x/blog/keeper/keeper.go"
     "github.com/cosmos/cosmos-sdk/codec"
     "github.com/cosmos/cosmos-sdk/runtime"
     sdk "github.com/cosmos/cosmos-sdk/types"
