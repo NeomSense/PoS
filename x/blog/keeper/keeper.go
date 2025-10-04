@@ -1,14 +1,13 @@
 package keeper
 
 import (
-	"fmt"
-
 	"cosmossdk.io/collections"
 	"cosmossdk.io/core/address"
 	"cosmossdk.io/core/store"
 	"github.com/cosmos/cosmos-sdk/codec"
-
-	"github.com/NeomSense/PoS/x/blog/types"
+	"github.com/cosmos/cosmos-sdk/runtime"
+	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/funmachine/pos/x/blog/types"
 )
 
 // Keeper defines the blog module's keeper
@@ -18,8 +17,8 @@ type Keeper struct {
 	addressCodec address.Codec
 
 	// Collections for storing params, posts, and post count
-	Params collections.Item[types.Params]
-	Post   collections.Map[uint64, types.Post]
+	Params  collections.Item[types.Params]
+	Post    collections.Map[uint64, types.Post]
 	PostSeq collections.Sequence
 
 	// the address capable of executing a MsgUpdateParams message. Typically, this
@@ -31,52 +30,29 @@ type Keeper struct {
 // NewKeeper creates a new blog keeper
 func NewKeeper(
 	cdc codec.BinaryCodec,
-	storeService store.KVStoreService,
-	addressCodec address.Codec,
-	authority string,
-) (Keeper, error) {
-	sb := collections.NewSchemaBuilder(storeService)
-
-	k := Keeper{
-		cdc:          cdc,
-		storeService: storeService,
-		addressCodec: addressCodec,
-		authority:    authority,
+	storeKey sdk.StoreKey,
+	memStore sdk.KVStoreKey,
+) Keeper {
+	return Keeper{
+		cdc:      cdc,
+		storeKey: storeKey,
+		memStore: memStore,
 		Params: collections.NewItem(
-			sb,
+			runtime.NewKVStoreService(storeKey),
 			types.ParamsKey,
 			"params",
 			codec.CollValue[types.Params](cdc),
 		),
-		Post: collections.NewMap(
-			sb,
+		Posts: collections.NewMap(
+			runtime.NewKVStoreService(storeKey),
 			types.PostKey,
-			"post",
-			collections.Uint64Key,
+			"posts",
+			collections.StringKey,
 			codec.CollValue[types.Post](cdc),
 		),
-		PostSeq: collections.NewSequence(
-			sb,
+		PostCount: collections.NewSequence(
+			runtime.NewKVStoreService(storeKey),
 			types.PostCountKey,
-			"post_seq",
 		),
 	}
-
-	schema, err := sb.Build()
-	if err != nil {
-		return Keeper{}, err
-	}
-	k.Schema = schema
-
-	return k, nil
-}
-
-// GetAuthority returns the module's authority.
-func (k Keeper) GetAuthority() string {
-	return k.authority
-}
-
-// Logger returns a module-specific logger.
-func (k Keeper) Logger(ctx any) any {
-	return fmt.Sprintf("blog keeper logger: %v", ctx)
 }
