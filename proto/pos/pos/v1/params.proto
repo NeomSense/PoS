@@ -4,10 +4,37 @@ package pos.pos.v1;
 import "amino/amino.proto";
 import "gogoproto/gogo.proto";
 
-option go_package = "github.com/you/pos/x/pos/types";
+option go_package = "github.com/NeomSense/PoS/x/pos/types";
 
 // Params defines the parameters for the module.
 message Params {
   option (amino.name) = "pos/x/pos/Params";
   option (gogoproto.equal) = true;
+
+  // Minimum record size in bytes
+  uint64 min_record_size = 1;
+
+  // Maximum record size in bytes
+  uint64 max_record_size = 2;
+
+  // Required records per epoch (number of blocks)
+  uint64 records_per_epoch = 3;
+
+  // Epoch length in blocks
+  uint64 epoch_length = 4;
+
+  // Slash fraction for missing records
+  string slash_fraction_missing_record = 5 [
+    (gogoproto.customtype) = "cosmossdk.io/math.LegacyDec",
+    (gogoproto.nullable) = false
+  ];
+
+  // Slash fraction for invalid records
+  string slash_fraction_invalid_record = 6 [
+    (gogoproto.customtype) = "cosmossdk.io/math.LegacyDec",
+    (gogoproto.nullable) = false
+  ];
+
+  // Minimum number of verified records to remain eligible
+  uint64 min_verified_records_for_eligibility = 7;
 }

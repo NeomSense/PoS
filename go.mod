@@ -1,4 +1,4 @@
-module github.com/you/pos
+module github.com/NeomSense/PoS
 
 go 1.24.0
 

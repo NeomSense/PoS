@@ -1,7 +1,7 @@
 package keeper
 
 import (
-	"github.com/you/pos/x/blog/types"
+	"github.com/NeomSense/PoS/x/blog/types"
 )
 
 type msgServer struct {

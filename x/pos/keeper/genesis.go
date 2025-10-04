@@ -3,7 +3,7 @@ package keeper
 import (
 	"context"
 
-	"github.com/you/pos/x/pos/types"
+	"github.com/NeomSense/PoS/x/pos/types"
 )
 
 // InitGenesis initializes the module's state from a provided genesis state.

@@ -7,7 +7,7 @@ import (
 	"cosmossdk.io/collections"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/cosmos/cosmos-sdk/types/query"
-	"github.com/you/pos/x/blog/types"
+	"github.com/NeomSense/PoS/x/blog/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )

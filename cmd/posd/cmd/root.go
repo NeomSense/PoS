@@ -17,7 +17,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/auth/types"
 	"github.com/spf13/cobra"
 
-	"github.com/you/pos/app"
+	"github.com/NeomSense/PoS/app"
 )
 
 // NewRootCmd creates a new root command for posd. It is called once in the main function.

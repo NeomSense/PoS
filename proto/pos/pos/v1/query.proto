@@ -6,14 +6,35 @@ import "cosmos/base/query/v1beta1/pagination.proto";
 import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "pos/pos/v1/params.proto";
+import "pos/pos/v1/record.proto";
 
-option go_package = "github.com/you/pos/x/pos/types";
+option go_package = "github.com/NeomSense/PoS/x/pos/types";
 
 // Query defines the gRPC querier service.
 service Query {
   // Parameters queries the parameters of the module.
   rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
-    option (google.api.http).get = "/you/pos/pos/v1/params";
+    option (google.api.http).get = "/NeomSense/pos/pos/v1/params";
+  }
+
+  // Record queries a record by id
+  rpc Record(QueryRecordRequest) returns (QueryRecordResponse) {
+    option (google.api.http).get = "/NeomSense/pos/pos/v1/record/{id}";
+  }
+
+  // Records queries all records with optional pagination
+  rpc Records(QueryRecordsRequest) returns (QueryRecordsResponse) {
+    option (google.api.http).get = "/NeomSense/pos/pos/v1/records";
+  }
+
+  // ValidatorRecords queries records for a specific validator
+  rpc ValidatorRecords(QueryValidatorRecordsRequest) returns (QueryValidatorRecordsResponse) {
+    option (google.api.http).get = "/NeomSense/pos/pos/v1/validator/{validator_address}/records";
+  }
+
+  // ValidatorStats queries record statistics for a validator
+  rpc ValidatorStats(QueryValidatorStatsRequest) returns (QueryValidatorStatsResponse) {
+    option (google.api.http).get = "/NeomSense/pos/pos/v1/validator/{validator_address}/stats";
   }
 }
 
@@ -27,4 +48,47 @@ message QueryParamsResponse {
     (gogoproto.nullable) = false,
     (amino.dont_omitempty) = true
   ];
+}
+
+// QueryRecordRequest is request type for the Query/Record RPC method.
+message QueryRecordRequest {
+  string id = 1;
+}
+
+// QueryRecordResponse is response type for the Query/Record RPC method.
+message QueryRecordResponse {
+  Record record = 1 [(gogoproto.nullable) = false];
+}
+
+// QueryRecordsRequest is request type for the Query/Records RPC method.
+message QueryRecordsRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+// QueryRecordsResponse is response type for the Query/Records RPC method.
+message QueryRecordsResponse {
+  repeated Record records = 1 [(gogoproto.nullable) = false];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+// QueryValidatorRecordsRequest is request type for the Query/ValidatorRecords RPC method.
+message QueryValidatorRecordsRequest {
+  string validator_address = 1;
+  cosmos.base.query.v1beta1.PageRequest pagination = 2;
+}
+
+// QueryValidatorRecordsResponse is response type for the Query/ValidatorRecords RPC method.
+message QueryValidatorRecordsResponse {
+  repeated Record records = 1 [(gogoproto.nullable) = false];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+// QueryValidatorStatsRequest is request type for the Query/ValidatorStats RPC method.
+message QueryValidatorStatsRequest {
+  string validator_address = 1;
+}
+
+// QueryValidatorStatsResponse is response type for the Query/ValidatorStats RPC method.
+message QueryValidatorStatsResponse {
+  ValidatorRecordStats stats = 1 [(gogoproto.nullable) = false];
 }

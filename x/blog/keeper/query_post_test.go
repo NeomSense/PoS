@@ -11,8 +11,8 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/you/pos/x/blog/keeper"
-	"github.com/you/pos/x/blog/types"
+	"github.com/NeomSense/PoS/x/blog/keeper"
+	"github.com/NeomSense/PoS/x/blog/types"
 )
 
 func createNPost(keeper keeper.Keeper, ctx context.Context, n int) []types.Post {

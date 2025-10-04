@@ -67,10 +67,10 @@ import (
 	icatypes "github.com/cosmos/ibc-go/v10/modules/apps/27-interchain-accounts/types"
 	ibctransfertypes "github.com/cosmos/ibc-go/v10/modules/apps/transfer/types"
 	ibcexported "github.com/cosmos/ibc-go/v10/modules/core/exported"
-	_ "github.com/you/pos/x/blog/module"
-	blogmoduletypes "github.com/you/pos/x/blog/types"
-	_ "github.com/you/pos/x/pos/module"
-	posmoduletypes "github.com/you/pos/x/pos/types"
+	//_ "github.com/NeomSense/PoS/x/blog/module"
+	blogmoduletypes "github.com/NeomSense/PoS/x/blog/types"
+	_ "github.com/NeomSense/PoS/x/pos/module"
+	posmoduletypes "github.com/NeomSense/PoS/x/pos/types"
 	"google.golang.org/protobuf/types/known/durationpb"
 )
 

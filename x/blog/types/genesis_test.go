@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/require"
-	"github.com/you/pos/x/blog/types"
+	"github.com/NeomSense/PoS/x/blog/types"
 )
 
 func TestGenesisState_Validate(t *testing.T) {

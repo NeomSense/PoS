@@ -7,8 +7,8 @@ import (
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 	"github.com/cosmos/cosmos-sdk/x/simulation"
 
-	blogsimulation "github.com/you/pos/x/blog/simulation"
-	"github.com/you/pos/x/blog/types"
+	blogsimulation "github.com/NeomSense/PoS/x/blog/simulation"
+	"github.com/NeomSense/PoS/x/blog/types"
 )
 
 // GenerateGenesisState creates a randomized GenState of the module.

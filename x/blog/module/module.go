@@ -12,10 +12,12 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
+	"github.com/spf13/cobra"
 	"google.golang.org/grpc"
 
-	"github.com/you/pos/x/blog/keeper"
-	"github.com/you/pos/x/blog/types"
+	"github.com/NeomSense/PoS/x/blog/client/cli"
+	"github.com/NeomSense/PoS/x/blog/keeper"
+	"github.com/NeomSense/PoS/x/blog/types"
 )
 
 var (
@@ -71,6 +73,16 @@ func (AppModule) RegisterGRPCGatewayRoutes(clientCtx client.Context, mux *runtim
 // RegisterInterfaces registers a module's interface types and their concrete implementations as proto.Message.
 func (AppModule) RegisterInterfaces(registrar codectypes.InterfaceRegistry) {
 	types.RegisterInterfaces(registrar)
+}
+
+// GetTxCmd returns the root tx command for the module
+func (AppModule) GetTxCmd() *cobra.Command {
+	return cli.GetTxCmd()
+}
+
+// GetQueryCmd returns the root query command for the module
+func (AppModule) GetQueryCmd() *cobra.Command {
+	return cli.GetQueryCmd()
 }
 
 // RegisterServices registers a gRPC query service to respond to the module-specific gRPC queries

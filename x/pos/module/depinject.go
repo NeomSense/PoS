@@ -9,8 +9,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/codec"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 
-	"github.com/you/pos/x/pos/keeper"
-	"github.com/you/pos/x/pos/types"
+	"github.com/NeomSense/PoS/x/pos/keeper"
+	"github.com/NeomSense/PoS/x/pos/types"
 )
 
 var _ depinject.OnePerModuleType = AppModule{}
@@ -33,8 +33,10 @@ type ModuleInputs struct {
 	Cdc          codec.Codec
 	AddressCodec address.Codec
 
-	AuthKeeper types.AuthKeeper
-	BankKeeper types.BankKeeper
+	AuthKeeper     types.AuthKeeper
+	BankKeeper     types.BankKeeper
+	StakingKeeper  types.StakingKeeper
+	SlashingKeeper types.SlashingKeeper
 }
 
 type ModuleOutputs struct {
@@ -55,6 +57,8 @@ func ProvideModule(in ModuleInputs) ModuleOutputs {
 		in.Cdc,
 		in.AddressCodec,
 		authority,
+		in.StakingKeeper,
+		in.SlashingKeeper,
 	)
 	m := NewAppModule(in.Cdc, k, in.AuthKeeper, in.BankKeeper)
 

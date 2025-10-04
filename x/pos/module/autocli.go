@@ -3,7 +3,7 @@ package pos
 import (
 	autocliv1 "cosmossdk.io/api/cosmos/autocli/v1"
 
-	"github.com/you/pos/x/pos/types"
+	"github.com/NeomSense/PoS/x/pos/types"
 )
 
 // AutoCLIOptions implements the autocli.HasAutoCLIConfig interface.

@@ -3,7 +3,7 @@ package blog
 import (
 	autocliv1 "cosmossdk.io/api/cosmos/autocli/v1"
 
-	"github.com/you/pos/x/blog/types"
+	"github.com/NeomSense/PoS/x/blog/types"
 )
 
 // AutoCLIOptions implements the autocli.HasAutoCLIConfig interface.

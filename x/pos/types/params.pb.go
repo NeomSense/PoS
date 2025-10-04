@@ -4,6 +4,7 @@
 package types
 
 import (
+	cosmossdk_io_math "cosmossdk.io/math"
 	fmt "fmt"
 	_ "github.com/cosmos/cosmos-sdk/types/tx/amino"
 	_ "github.com/cosmos/gogoproto/gogoproto"
@@ -26,6 +27,20 @@ const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
 // Params defines the parameters for the module.
 type Params struct {
+	// Minimum record size in bytes
+	MinRecordSize uint64 `protobuf:"varint,1,opt,name=min_record_size,json=minRecordSize,proto3" json:"min_record_size,omitempty"`
+	// Maximum record size in bytes
+	MaxRecordSize uint64 `protobuf:"varint,2,opt,name=max_record_size,json=maxRecordSize,proto3" json:"max_record_size,omitempty"`
+	// Required records per epoch (number of blocks)
+	RecordsPerEpoch uint64 `protobuf:"varint,3,opt,name=records_per_epoch,json=recordsPerEpoch,proto3" json:"records_per_epoch,omitempty"`
+	// Epoch length in blocks
+	EpochLength uint64 `protobuf:"varint,4,opt,name=epoch_length,json=epochLength,proto3" json:"epoch_length,omitempty"`
+	// Slash fraction for missing records
+	SlashFractionMissingRecord cosmossdk_io_math.LegacyDec `protobuf:"bytes,5,opt,name=slash_fraction_missing_record,json=slashFractionMissingRecord,proto3,customtype=cosmossdk.io/math.LegacyDec" json:"slash_fraction_missing_record"`
+	// Slash fraction for invalid records
+	SlashFractionInvalidRecord cosmossdk_io_math.LegacyDec `protobuf:"bytes,6,opt,name=slash_fraction_invalid_record,json=slashFractionInvalidRecord,proto3,customtype=cosmossdk.io/math.LegacyDec" json:"slash_fraction_invalid_record"`
+	// Minimum number of verified records to remain eligible
+	MinVerifiedRecordsForEligibility uint64 `protobuf:"varint,7,opt,name=min_verified_records_for_eligibility,json=minVerifiedRecordsForEligibility,proto3" json:"min_verified_records_for_eligibility,omitempty"`
 }
 
 func (m *Params) Reset()         { *m = Params{} }
@@ -61,6 +76,41 @@ func (m *Params) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_Params proto.InternalMessageInfo
 
+func (m *Params) GetMinRecordSize() uint64 {
+	if m != nil {
+		return m.MinRecordSize
+	}
+	return 0
+}
+
+func (m *Params) GetMaxRecordSize() uint64 {
+	if m != nil {
+		return m.MaxRecordSize
+	}
+	return 0
+}
+
+func (m *Params) GetRecordsPerEpoch() uint64 {
+	if m != nil {
+		return m.RecordsPerEpoch
+	}
+	return 0
+}
+
+func (m *Params) GetEpochLength() uint64 {
+	if m != nil {
+		return m.EpochLength
+	}
+	return 0
+}
+
+func (m *Params) GetMinVerifiedRecordsForEligibility() uint64 {
+	if m != nil {
+		return m.MinVerifiedRecordsForEligibility
+	}
+	return 0
+}
+
 func init() {
 	proto.RegisterType((*Params)(nil), "pos.pos.v1.Params")
 }
@@ -68,18 +118,34 @@ func init() {
 func init() { proto.RegisterFile("pos/pos/v1/params.proto", fileDescriptor_1379ddf99a018d5b) }
 
 var fileDescriptor_1379ddf99a018d5b = []byte{
-	// 162 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x12, 0x2f, 0xc8, 0x2f, 0xd6,
-	0x07, 0xe1, 0x32, 0x43, 0xfd, 0x82, 0xc4, 0xa2, 0xc4, 0xdc, 0x62, 0xbd, 0x82, 0xa2, 0xfc, 0x92,
-	0x7c, 0x21, 0xae, 0x82, 0xfc, 0x62, 0x3d, 0x10, 0x2e, 0x33, 0x94, 0x12, 0x4c, 0xcc, 0xcd, 0xcc,
-	0xcb, 0xd7, 0x07, 0x93, 0x10, 0x69, 0x29, 0x91, 0xf4, 0xfc, 0xf4, 0x7c, 0x30, 0x53, 0x1f, 0xc4,
-	0x82, 0x88, 0x2a, 0x29, 0x73, 0xb1, 0x05, 0x80, 0x0d, 0xb1, 0x92, 0x7c, 0xb1, 0x40, 0x9e, 0xb1,
-	0xeb, 0xf9, 0x06, 0x2d, 0x01, 0x90, 0xe1, 0x15, 0x60, 0x2b, 0x20, 0x52, 0x4e, 0x16, 0x27, 0x1e,
-	0xc9, 0x31, 0x5e, 0x78, 0x24, 0xc7, 0xf8, 0xe0, 0x91, 0x1c, 0xe3, 0x84, 0xc7, 0x72, 0x0c, 0x17,
-	0x1e, 0xcb, 0x31, 0xdc, 0x78, 0x2c, 0xc7, 0x10, 0x25, 0x97, 0x9e, 0x59, 0x92, 0x51, 0x9a, 0xa4,
-	0x97, 0x9c, 0x9f, 0xab, 0x5f, 0x99, 0x5f, 0xaa, 0x8f, 0xd0, 0x5a, 0x52, 0x59, 0x90, 0x5a, 0x9c,
-	0xc4, 0x06, 0xb6, 0xc5, 0x18, 0x10, 0x00, 0x00, 0xff, 0xff, 0x69, 0x34, 0xc2, 0x88, 0xb5, 0x00,
-	0x00, 0x00,
+	// 420 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x92, 0x41, 0x6b, 0x13, 0x41,
+	0x14, 0xc7, 0xb3, 0xb6, 0x46, 0x1c, 0x95, 0xda, 0x20, 0xb8, 0x46, 0xdc, 0x44, 0x2d, 0x52, 0x7a,
+	0xd8, 0xa5, 0x78, 0xf3, 0xe0, 0xa1, 0xd8, 0x82, 0x50, 0x4b, 0x48, 0xc0, 0x83, 0x97, 0x61, 0xb2,
+	0x79, 0xd9, 0x7d, 0xb8, 0x33, 0x6f, 0x99, 0xb7, 0x86, 0xa4, 0x1f, 0xc1, 0x93, 0x1f, 0xc1, 0x8f,
+	0xe0, 0xc7, 0xe8, 0xb1, 0x47, 0xf1, 0x50, 0x64, 0x73, 0xd0, 0x8f, 0x21, 0x3b, 0xb3, 0x41, 0x05,
+	0x4f, 0x1e, 0x66, 0x19, 0xfe, 0xef, 0xc7, 0xef, 0x0d, 0x6f, 0x9f, 0xb8, 0x5f, 0x12, 0x27, 0xcd,
+	0x59, 0x1c, 0x26, 0xa5, 0xb2, 0x4a, 0x73, 0x5c, 0x5a, 0xaa, 0xa8, 0x27, 0x4a, 0xe2, 0xb8, 0x39,
+	0x8b, 0xc3, 0xfe, 0xae, 0xd2, 0x68, 0x28, 0x71, 0x5f, 0x5f, 0xee, 0xdf, 0xcb, 0x28, 0x23, 0x77,
+	0x4d, 0x9a, 0x9b, 0x4f, 0x9f, 0xd4, 0x5b, 0xa2, 0x3b, 0x72, 0x96, 0xde, 0x33, 0xb1, 0xa3, 0xd1,
+	0x48, 0x0b, 0x29, 0xd9, 0x99, 0x64, 0x3c, 0x87, 0x30, 0x18, 0x06, 0xfb, 0xdb, 0xe3, 0x3b, 0x1a,
+	0xcd, 0xd8, 0xa5, 0x13, 0x3c, 0x07, 0xc7, 0xa9, 0xe5, 0x5f, 0xdc, 0xb5, 0x96, 0x53, 0xcb, 0x3f,
+	0xb8, 0x03, 0xb1, 0xeb, 0x19, 0x96, 0x25, 0x58, 0x09, 0x25, 0xa5, 0x79, 0xb8, 0xe5, 0xc8, 0x9d,
+	0xb6, 0x30, 0x02, 0x7b, 0xdc, 0xc4, 0xbd, 0xc7, 0xe2, 0xb6, 0xab, 0xcb, 0x02, 0x4c, 0x56, 0xe5,
+	0xe1, 0xb6, 0xc3, 0x6e, 0xb9, 0xec, 0xd4, 0x45, 0xbd, 0xb9, 0x78, 0xc4, 0x85, 0xe2, 0x5c, 0xce,
+	0xad, 0x4a, 0x2b, 0x24, 0x23, 0x35, 0x32, 0xa3, 0xc9, 0xda, 0x97, 0x84, 0xd7, 0x87, 0xc1, 0xfe,
+	0xcd, 0xa3, 0xa7, 0x17, 0x57, 0x83, 0xce, 0xb7, 0xab, 0xc1, 0xc3, 0x94, 0x58, 0x13, 0xf3, 0xec,
+	0x7d, 0x8c, 0x94, 0x68, 0x55, 0xe5, 0xf1, 0x29, 0x64, 0x2a, 0x5d, 0xbd, 0x82, 0x74, 0xdc, 0x77,
+	0xa6, 0x93, 0x56, 0xf4, 0xc6, 0x7b, 0xfc, 0xd3, 0xff, 0xd1, 0x07, 0xcd, 0x42, 0x15, 0x38, 0xdb,
+	0xf4, 0xe9, 0xfe, 0x6f, 0x9f, 0xd7, 0xde, 0xd3, 0xf6, 0x39, 0x13, 0x7b, 0xcd, 0xb8, 0x17, 0x60,
+	0x71, 0x8e, 0xb0, 0xb1, 0xb3, 0x9c, 0x93, 0x95, 0x50, 0x60, 0x86, 0x53, 0x2c, 0xb0, 0x5a, 0x85,
+	0x37, 0xdc, 0x28, 0x86, 0x1a, 0xcd, 0xdb, 0x16, 0xf5, 0x02, 0x3e, 0x21, 0x7b, 0xfc, 0x9b, 0x7b,
+	0xf1, 0xe0, 0xe7, 0xe7, 0x41, 0xf0, 0xf1, 0xc7, 0x97, 0x83, 0xbb, 0xcd, 0x72, 0x2c, 0xdd, 0x8a,
+	0xf8, 0x3f, 0x7b, 0xf4, 0xf2, 0xa2, 0x8e, 0x82, 0xcb, 0x3a, 0x0a, 0xbe, 0xd7, 0x51, 0xf0, 0x69,
+	0x1d, 0x75, 0x2e, 0xd7, 0x51, 0xe7, 0xeb, 0x3a, 0xea, 0xbc, 0xdb, 0xcb, 0xb0, 0xca, 0x3f, 0x4c,
+	0xe3, 0x94, 0x74, 0x72, 0x06, 0xa4, 0x27, 0x60, 0x18, 0x92, 0x11, 0x4d, 0x5a, 0x41, 0xb5, 0x2a,
+	0x81, 0xa7, 0x5d, 0xb7, 0x2b, 0xcf, 0x7f, 0x05, 0x00, 0x00, 0xff, 0xff, 0x4f, 0x8f, 0x9f, 0xda,
+	0x7b, 0x02, 0x00, 0x00,
 }
 
 func (this *Params) Equal(that interface{}) bool {
@@ -99,6 +165,27 @@ func (this *Params) Equal(that interface{}) bool {
 	if that1 == nil {
 		return this == nil
 	} else if this == nil {
+		return false
+	}
+	if this.MinRecordSize != that1.MinRecordSize {
+		return false
+	}
+	if this.MaxRecordSize != that1.MaxRecordSize {
+		return false
+	}
+	if this.RecordsPerEpoch != that1.RecordsPerEpoch {
+		return false
+	}
+	if this.EpochLength != that1.EpochLength {
+		return false
+	}
+	if !this.SlashFractionMissingRecord.Equal(that1.SlashFractionMissingRecord) {
+		return false
+	}
+	if !this.SlashFractionInvalidRecord.Equal(that1.SlashFractionInvalidRecord) {
+		return false
+	}
+	if this.MinVerifiedRecordsForEligibility != that1.MinVerifiedRecordsForEligibility {
 		return false
 	}
 	return true
@@ -123,6 +210,51 @@ func (m *Params) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if m.MinVerifiedRecordsForEligibility != 0 {
+		i = encodeVarintParams(dAtA, i, uint64(m.MinVerifiedRecordsForEligibility))
+		i--
+		dAtA[i] = 0x38
+	}
+	{
+		size := m.SlashFractionInvalidRecord.Size()
+		i -= size
+		if _, err := m.SlashFractionInvalidRecord.MarshalTo(dAtA[i:]); err != nil {
+			return 0, err
+		}
+		i = encodeVarintParams(dAtA, i, uint64(size))
+	}
+	i--
+	dAtA[i] = 0x32
+	{
+		size := m.SlashFractionMissingRecord.Size()
+		i -= size
+		if _, err := m.SlashFractionMissingRecord.MarshalTo(dAtA[i:]); err != nil {
+			return 0, err
+		}
+		i = encodeVarintParams(dAtA, i, uint64(size))
+	}
+	i--
+	dAtA[i] = 0x2a
+	if m.EpochLength != 0 {
+		i = encodeVarintParams(dAtA, i, uint64(m.EpochLength))
+		i--
+		dAtA[i] = 0x20
+	}
+	if m.RecordsPerEpoch != 0 {
+		i = encodeVarintParams(dAtA, i, uint64(m.RecordsPerEpoch))
+		i--
+		dAtA[i] = 0x18
+	}
+	if m.MaxRecordSize != 0 {
+		i = encodeVarintParams(dAtA, i, uint64(m.MaxRecordSize))
+		i--
+		dAtA[i] = 0x10
+	}
+	if m.MinRecordSize != 0 {
+		i = encodeVarintParams(dAtA, i, uint64(m.MinRecordSize))
+		i--
+		dAtA[i] = 0x8
+	}
 	return len(dAtA) - i, nil
 }
 
@@ -143,6 +275,25 @@ func (m *Params) Size() (n int) {
 	}
 	var l int
 	_ = l
+	if m.MinRecordSize != 0 {
+		n += 1 + sovParams(uint64(m.MinRecordSize))
+	}
+	if m.MaxRecordSize != 0 {
+		n += 1 + sovParams(uint64(m.MaxRecordSize))
+	}
+	if m.RecordsPerEpoch != 0 {
+		n += 1 + sovParams(uint64(m.RecordsPerEpoch))
+	}
+	if m.EpochLength != 0 {
+		n += 1 + sovParams(uint64(m.EpochLength))
+	}
+	l = m.SlashFractionMissingRecord.Size()
+	n += 1 + l + sovParams(uint64(l))
+	l = m.SlashFractionInvalidRecord.Size()
+	n += 1 + l + sovParams(uint64(l))
+	if m.MinVerifiedRecordsForEligibility != 0 {
+		n += 1 + sovParams(uint64(m.MinVerifiedRecordsForEligibility))
+	}
 	return n
 }
 
@@ -181,6 +332,169 @@ func (m *Params) Unmarshal(dAtA []byte) error {
 			return fmt.Errorf("proto: Params: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field MinRecordSize", wireType)
+			}
+			m.MinRecordSize = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowParams
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.MinRecordSize |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field MaxRecordSize", wireType)
+			}
+			m.MaxRecordSize = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowParams
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.MaxRecordSize |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 3:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field RecordsPerEpoch", wireType)
+			}
+			m.RecordsPerEpoch = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowParams
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.RecordsPerEpoch |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 4:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field EpochLength", wireType)
+			}
+			m.EpochLength = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowParams
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.EpochLength |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 5:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field SlashFractionMissingRecord", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowParams
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthParams
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthParams
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if err := m.SlashFractionMissingRecord.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 6:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field SlashFractionInvalidRecord", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowParams
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthParams
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthParams
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if err := m.SlashFractionInvalidRecord.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 7:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field MinVerifiedRecordsForEligibility", wireType)
+			}
+			m.MinVerifiedRecordsForEligibility = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowParams
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.MinVerifiedRecordsForEligibility |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
 		default:
 			iNdEx = preIndex
 			skippy, err := skipParams(dAtA[iNdEx:])

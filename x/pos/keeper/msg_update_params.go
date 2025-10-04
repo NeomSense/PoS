@@ -6,17 +6,17 @@ import (
 
 	errorsmod "cosmossdk.io/errors"
 
-	"github.com/you/pos/x/pos/types"
+	"github.com/NeomSense/PoS/x/pos/types"
 )
 
-func (k msgServer) UpdateParams(ctx context.Context, req *types.MsgUpdateParams) (*types.MsgUpdateParamsResponse, error) {
-	authority, err := k.addressCodec.StringToBytes(req.Authority)
+func (ms msgServer) UpdateParams(ctx context.Context, req *types.MsgUpdateParams) (*types.MsgUpdateParamsResponse, error) {
+	authority, err := ms.k.addressCodec.StringToBytes(req.Authority)
 	if err != nil {
 		return nil, errorsmod.Wrap(err, "invalid authority address")
 	}
 
-	if !bytes.Equal(k.GetAuthority(), authority) {
-		expectedAuthorityStr, _ := k.addressCodec.BytesToString(k.GetAuthority())
+	if !bytes.Equal(ms.k.GetAuthority(), authority) {
+		expectedAuthorityStr, _ := ms.k.addressCodec.BytesToString(ms.k.GetAuthority())
 		return nil, errorsmod.Wrapf(types.ErrInvalidSigner, "invalid authority; expected %s, got %s", expectedAuthorityStr, req.Authority)
 	}
 
@@ -24,7 +24,7 @@ func (k msgServer) UpdateParams(ctx context.Context, req *types.MsgUpdateParams)
 		return nil, err
 	}
 
-	if err := k.Params.Set(ctx, req.Params); err != nil {
+	if err := ms.k.Params.Set(ctx, req.Params); err != nil {
 		return nil, err
 	}
 

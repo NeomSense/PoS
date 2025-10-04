@@ -1,58 +1,41 @@
 package keeper
 
 import (
-	"encoding/binary"
+	"context"
 
-	"github.com/cosmos/cosmos-sdk/runtime"
-	"cosmossdk.io/store/prefix"
-	sdk "github.com/cosmos/cosmos-sdk/types"
-
-	"github.com/you/pos/x/blog/types"
+	"github.com/NeomSense/PoS/x/blog/types"
 )
 
 // ===== Post count (total) =====
 
-func (k Keeper) GetPostCount(ctx sdk.Context) uint64 {
-	kv := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	bz := kv.Get(types.KeyPrefix(types.PostCountKey))
-	if bz == nil {
+func (k Keeper) GetPostCount(ctx context.Context) uint64 {
+	count, err := k.PostSeq.Peek(ctx)
+	if err != nil {
 		return 0
 	}
-	return binary.BigEndian.Uint64(bz)
+	return count
 }
 
-func (k Keeper) SetPostCount(ctx sdk.Context, count uint64) {
-	kv := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	bz := make([]byte, 8)
-	binary.BigEndian.PutUint64(bz, count)
-	kv.Set(types.KeyPrefix(types.PostCountKey), bz)
+func (k Keeper) SetPostCount(ctx context.Context, count uint64) {
+	// With collections.Sequence, we don't manually set count
+	// The sequence is auto-incremented via Next()
+	// This method is kept for compatibility but does nothing
 }
 
 // ===== CRUD for Post =====
 
-func (k Keeper) SetPost(ctx sdk.Context, post types.Post) {
-	store := prefix.NewStore(runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx)), types.KeyPrefix(types.PostKeyPrefix))
-	b := k.cdc.MustMarshal(&post)
-	store.Set(postIDToBz(post.Id), b)
+func (k Keeper) SetPost(ctx context.Context, post types.Post) {
+	_ = k.Post.Set(ctx, post.Id, post)
 }
 
-func (k Keeper) GetPost(ctx sdk.Context, id uint64) (val types.Post, found bool) {
-	store := prefix.NewStore(runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx)), types.KeyPrefix(types.PostKeyPrefix))
-	b := store.Get(postIDToBz(id))
-	if b == nil {
-		return val, false
+func (k Keeper) GetPost(ctx context.Context, id uint64) (val types.Post, found bool) {
+	post, err := k.Post.Get(ctx, id)
+	if err != nil {
+		return types.Post{}, false
 	}
-	k.cdc.MustUnmarshal(b, &val)
-	return val, true
+	return post, true
 }
 
-func (k Keeper) RemovePost(ctx sdk.Context, id uint64) {
-	store := prefix.NewStore(runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx)), types.KeyPrefix(types.PostKeyPrefix))
-	store.Delete(postIDToBz(id))
-}
-
-func postIDToBz(id uint64) []byte {
-	bz := make([]byte, 8)
-	binary.BigEndian.PutUint64(bz, id)
-	return bz
+func (k Keeper) RemovePost(ctx context.Context, id uint64) {
+	_ = k.Post.Remove(ctx, id)
 }

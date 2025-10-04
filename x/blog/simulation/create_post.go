@@ -8,8 +8,8 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 
-	"github.com/you/pos/x/blog/keeper"
-	"github.com/you/pos/x/blog/types"
+	"github.com/NeomSense/PoS/x/blog/keeper"
+	"github.com/NeomSense/PoS/x/blog/types"
 )
 
 func SimulateMsgCreatePost(

@@ -1,0 +1,43 @@
+syntax = "proto3";
+package pos.pos.v1;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+
+option go_package = "github.com/NeomSense/PoS/x/pos/types";
+
+// Record represents a proof-of-record submission by a validator
+message Record {
+  option (gogoproto.equal) = true;
+
+  string id = 1;
+  string validator_address = 2 [(gogoproto.moretags) = "yaml:\"validator_address\""];
+  bytes data = 3;
+  int64 timestamp = 4;
+  RecordStatus status = 5;
+  string merkle_root = 6 [(gogoproto.moretags) = "yaml:\"merkle_root\""];
+  uint64 block_height = 7;
+}
+
+// RecordStatus defines the status of a record
+enum RecordStatus {
+  option (gogoproto.goproto_enum_prefix) = false;
+
+  RECORD_STATUS_UNSPECIFIED = 0 [(gogoproto.enumvalue_customname) = "RecordStatusUnspecified"];
+  RECORD_STATUS_PENDING = 1 [(gogoproto.enumvalue_customname) = "RecordStatusPending"];
+  RECORD_STATUS_VERIFIED = 2 [(gogoproto.enumvalue_customname) = "RecordStatusVerified"];
+  RECORD_STATUS_REJECTED = 3 [(gogoproto.enumvalue_customname) = "RecordStatusRejected"];
+}
+
+// ValidatorRecordStats tracks record submission stats for a validator
+message ValidatorRecordStats {
+  option (gogoproto.equal) = true;
+
+  string validator_address = 1 [(gogoproto.moretags) = "yaml:\"validator_address\""];
+  uint64 total_records = 2;
+  uint64 verified_records = 3;
+  uint64 rejected_records = 4;
+  int64 last_record_time = 5;
+  bool is_eligible = 6;
+  int64 next_required_record_time = 7;
+}

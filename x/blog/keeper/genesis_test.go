@@ -3,7 +3,7 @@ package keeper_test
 import (
 	"testing"
 
-	"github.com/you/pos/x/blog/types"
+	"github.com/NeomSense/PoS/x/blog/types"
 
 	"github.com/stretchr/testify/require"
 )

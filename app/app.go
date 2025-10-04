@@ -45,9 +45,9 @@ import (
 	ibctransferkeeper "github.com/cosmos/ibc-go/v10/modules/apps/transfer/keeper"
 	ibckeeper "github.com/cosmos/ibc-go/v10/modules/core/keeper"
 
-	"github.com/you/pos/docs"
-	blogmodulekeeper "github.com/you/pos/x/blog/keeper"
-	posmodulekeeper "github.com/you/pos/x/pos/keeper"
+	"github.com/NeomSense/PoS/docs"
+	blogmodulekeeper "github.com/NeomSense/PoS/x/blog/keeper"
+	posmodulekeeper "github.com/NeomSense/PoS/x/pos/keeper"
 )
 
 const (

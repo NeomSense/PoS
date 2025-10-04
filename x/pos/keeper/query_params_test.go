@@ -5,8 +5,8 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/you/pos/x/pos/keeper"
-	"github.com/you/pos/x/pos/types"
+	"github.com/NeomSense/PoS/x/pos/keeper"
+	"github.com/NeomSense/PoS/x/pos/types"
 )
 
 func TestParamsQuery(t *testing.T) {

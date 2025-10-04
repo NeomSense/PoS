@@ -11,8 +11,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/codec"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 
-	"github.com/you/pos/x/blog/keeper"
-	"github.com/you/pos/x/blog/types"
+	"github.com/NeomSense/PoS/x/blog/keeper"
+	"github.com/NeomSense/PoS/x/blog/types"
 )
 
 var _ depinject.OnePerModuleType = AppModule{}
@@ -60,12 +60,16 @@ func ProvideModule(in ModuleInputs) ModuleOutputs {
 		panic(fmt.Sprintf("invalid authority address in depinject: %v", err))
 	}
 
-	k := keeper.NewKeeper(
-		in.StoreService,
+	k, err := keeper.NewKeeper(
 		in.Cdc,
+		in.StoreService,
 		in.AddressCodec,
 		authorityStr,
 	)
+	if err != nil {
+		panic(fmt.Sprintf("failed to create blog keeper: %v", err))
+	}
+
 	m := NewAppModule(in.Cdc, k, in.AuthKeeper, in.BankKeeper)
 
 	return ModuleOutputs{BlogKeeper: k, Module: m}

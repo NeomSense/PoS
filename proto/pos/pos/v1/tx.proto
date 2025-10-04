@@ -7,7 +7,7 @@ import "cosmos_proto/cosmos.proto";
 import "gogoproto/gogo.proto";
 import "pos/pos/v1/params.proto";
 
-option go_package = "github.com/you/pos/x/pos/types";
+option go_package = "github.com/NeomSense/PoS/x/pos/types";
 
 // Msg defines the Msg service.
 service Msg {
@@ -16,6 +16,12 @@ service Msg {
   // UpdateParams defines a (governance) operation for updating the module
   // parameters. The authority defaults to the x/gov module account.
   rpc UpdateParams(MsgUpdateParams) returns (MsgUpdateParamsResponse);
+
+  // SubmitRecord allows validators to submit a proof-of-record
+  rpc SubmitRecord(MsgSubmitRecord) returns (MsgSubmitRecordResponse);
+
+  // VerifyRecord allows verification of a submitted record
+  rpc VerifyRecord(MsgVerifyRecord) returns (MsgVerifyRecordResponse);
 }
 
 // MsgUpdateParams is the Msg/UpdateParams request type.
@@ -38,3 +44,32 @@ message MsgUpdateParams {
 // MsgUpdateParamsResponse defines the response structure for executing a
 // MsgUpdateParams message.
 message MsgUpdateParamsResponse {}
+
+// MsgSubmitRecord is the message for validators to submit records
+message MsgSubmitRecord {
+  option (cosmos.msg.v1.signer) = "validator_address";
+  option (amino.name) = "pos/x/pos/MsgSubmitRecord";
+
+  string validator_address = 1 [(cosmos_proto.scalar) = "cosmos.ValidatorAddressString"];
+  bytes data = 2;
+  string merkle_root = 3;
+}
+
+// MsgSubmitRecordResponse defines the response for MsgSubmitRecord
+message MsgSubmitRecordResponse {
+  string record_id = 1;
+  int64 timestamp = 2;
+}
+
+// MsgVerifyRecord is the message for verifying a submitted record
+message MsgVerifyRecord {
+  option (cosmos.msg.v1.signer) = "verifier";
+  option (amino.name) = "pos/x/pos/MsgVerifyRecord";
+
+  string verifier = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string record_id = 2;
+  bool approved = 3;
+}
+
+// MsgVerifyRecordResponse defines the response for MsgVerifyRecord
+message MsgVerifyRecordResponse {}

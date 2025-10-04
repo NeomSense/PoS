@@ -4,21 +4,21 @@ import (
 	"context"
 
 	errorsmod "cosmossdk.io/errors"
-	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/you/pos/x/blog/types"
+	"github.com/NeomSense/PoS/x/blog/types"
 )
 
-func (k msgServer) CreatePost(goCtx context.Context, msg *types.MsgCreatePost) (*types.MsgCreatePostResponse, error) {
+func (k msgServer) CreatePost(ctx context.Context, msg *types.MsgCreatePost) (*types.MsgCreatePostResponse, error) {
 	// Validate creator bech32
 	if _, err := k.addressCodec.StringToBytes(msg.Creator); err != nil {
 		return nil, errorsmod.Wrap(err, "invalid creator address")
 	}
 
-	ctx := sdk.UnwrapSDKContext(goCtx)
-
-	// Get new ID from counter and store the post
-	id := k.GetPostCount(ctx)
+	// Get new ID from sequence
+	id, err := k.PostSeq.Next(ctx)
+	if err != nil {
+		return nil, err
+	}
 
 	post := types.Post{
 		Id:      id,
@@ -27,8 +27,9 @@ func (k msgServer) CreatePost(goCtx context.Context, msg *types.MsgCreatePost) (
 		Body:    msg.Content, // Post has Body; Msg has Content
 	}
 
-	k.SetPost(ctx, post)
-	k.SetPostCount(ctx, id+1)
+	if err := k.Post.Set(ctx, id, post); err != nil {
+		return nil, err
+	}
 
 	return &types.MsgCreatePostResponse{}, nil
 }

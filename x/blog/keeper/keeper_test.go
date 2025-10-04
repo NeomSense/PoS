@@ -13,9 +13,9 @@ import (
 	moduletestutil "github.com/cosmos/cosmos-sdk/types/module/testutil"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 
-	"github.com/you/pos/x/blog/keeper"
-	module "github.com/you/pos/x/blog/module"
-	"github.com/you/pos/x/blog/types"
+	"github.com/NeomSense/PoS/x/blog/keeper"
+	module "github.com/NeomSense/PoS/x/blog/module"
+	"github.com/NeomSense/PoS/x/blog/types"
 )
 
 type fixture struct {

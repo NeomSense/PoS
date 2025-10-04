@@ -12,10 +12,12 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
+	"github.com/spf13/cobra"
 	"google.golang.org/grpc"
 
-	"github.com/you/pos/x/pos/keeper"
-	"github.com/you/pos/x/pos/types"
+	"github.com/NeomSense/PoS/x/pos/client/cli"
+	"github.com/NeomSense/PoS/x/pos/keeper"
+	"github.com/NeomSense/PoS/x/pos/types"
 )
 
 var (
@@ -71,6 +73,16 @@ func (AppModule) RegisterGRPCGatewayRoutes(clientCtx client.Context, mux *runtim
 // RegisterInterfaces registers a module's interface types and their concrete implementations as proto.Message.
 func (AppModule) RegisterInterfaces(registrar codectypes.InterfaceRegistry) {
 	types.RegisterInterfaces(registrar)
+}
+
+// GetTxCmd returns the root tx command for the module
+func (AppModule) GetTxCmd() *cobra.Command {
+	return cli.GetTxCmd()
+}
+
+// GetQueryCmd returns the root query command for the module
+func (AppModule) GetQueryCmd() *cobra.Command {
+	return cli.GetQueryCmd()
 }
 
 // RegisterServices registers a gRPC query service to respond to the module-specific gRPC queries
@@ -137,7 +149,8 @@ func (am AppModule) BeginBlock(_ context.Context) error {
 }
 
 // EndBlock contains the logic that is automatically triggered at the end of each block.
-// The end block implementation is optional.
-func (am AppModule) EndBlock(_ context.Context) error {
-	return nil
+// Checks validator eligibility and slashes validators that don't meet record requirements.
+func (am AppModule) EndBlock(ctx context.Context) error {
+	// Check validator eligibility and slash if needed (runs at epoch boundaries)
+	return am.keeper.CheckAllValidatorsEligibility(ctx)
 }
